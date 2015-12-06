@@ -325,6 +325,14 @@ let
       ''
         mkdir -p $out tmp
 
+        tar zxf ${
+          pkgs.fetchurl {
+            url = "https://pypi.python.org/packages/source/c/click/click-5.1.tar.gz";
+            md5 = "9c5323008cccfe232a8b161fc8196d41";
+          }
+        }
+        cp click*/click tmp/ -R
+
         # collect content of zip archive
         cp ${./scripts/installer.py} tmp/__main__.py
         cp ${jobs.binaryTarball."${system}"}/*.tar.bz2 tmp/archive.tar.bz2
