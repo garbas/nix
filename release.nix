@@ -248,16 +248,18 @@ let
           binaryTarball.x86_64-darwin
           #binaryTarball.x86_64-freebsd
           binaryTarball.x86_64-linux
-          deb_debian7i386
-          deb_debian7x86_64
-          deb_ubuntu1404i386 # LTS
-          deb_ubuntu1404x86_64 # LTS
-          deb_ubuntu1504i386
-          deb_ubuntu1504x86_64
-          rpm_fedora20i386
-          rpm_fedora20x86_64
-          rpm_fedora21i386
-          rpm_fedora21x86_64
+          installer.i686-linux
+          installer.x86_64-linux
+          #deb_debian7i386
+          #deb_debian7x86_64
+          #deb_ubuntu1404i386 # LTS
+          #deb_ubuntu1404x86_64 # LTS
+          #deb_ubuntu1504i386
+          #deb_ubuntu1504x86_64
+          #rpm_fedora20i386
+          #rpm_fedora20x86_64
+          #rpm_fedora21i386
+          #rpm_fedora21x86_64
           tests.remoteBuilds
           tests.nix-copy-closure
           tests.binaryTarball
