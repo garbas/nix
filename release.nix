@@ -1,13 +1,11 @@
 { nix ? { outPath = ./.; revCount = 1234; shortRev = "abcdef"; }
 , officialRelease ? false
+, supportedSystems ? [ "x86_64-linux" "i686-linux" "x86_64-darwin" /* "x86_64-freebsd" "i686-freebsd" */ ]
 }:
 
 let
 
   pkgs = import <nixpkgs> {};
-
-  systems = [ "x86_64-linux" "i686-linux" "x86_64-darwin" /* "x86_64-freebsd" "i686-freebsd" */ ];
-
 
   jobs = rec {
 
@@ -74,7 +72,7 @@ let
       };
 
 
-    build = pkgs.lib.genAttrs systems (system:
+    build = pkgs.lib.genAttrs supportedSystems (system:
 
       with import <nixpkgs> { inherit system; };
 
@@ -108,7 +106,7 @@ let
       });
 
 
-    binaryTarball = pkgs.lib.genAttrs systems (system:
+    binaryTarball = pkgs.lib.genAttrs supportedSystems (system:
 
       with import <nixpkgs> { inherit system; };
 
@@ -232,7 +230,7 @@ let
           touch $out/nix-support/hydra-build-products
         ''); # */
 
-    installer = pkgs.lib.genAttrs systems (system: makeInstaller system []);
+    installer = pkgs.lib.genAttrs supportedSystems (system: makeInstaller system []);
 
     # Aggregate job containing the release-critical jobs.
     release = pkgs.releaseTools.aggregate {
