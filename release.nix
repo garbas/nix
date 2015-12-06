@@ -237,19 +237,11 @@ let
       name = "nix-${tarball.version}";
       meta.description = "Release-critical builds";
       constituents =
-        [ tarball
-          #build.i686-freebsd
-          build.i686-linux
-          build.x86_64-darwin
-          #build.x86_64-freebsd
-          build.x86_64-linux
-          #binaryTarball.i686-freebsd
-          binaryTarball.i686-linux
-          binaryTarball.x86_64-darwin
-          #binaryTarball.x86_64-freebsd
-          binaryTarball.x86_64-linux
-          installer.i686-linux
-          installer.x86_64-linux
+        (map (system: builtins.getAttr system build) supportedSystems) ++
+        (map (system: builtins.getAttr system binaryTarball) supportedSystems) ++
+        (map (system: builtins.getAttr system installer) supportedSystems) ++
+        [
+          tarball
           deb_debian7i386
           deb_debian7x86_64
           deb_ubuntu1404i386 # LTS
