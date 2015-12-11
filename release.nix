@@ -237,25 +237,27 @@ let
       name = "nix-${tarball.version}";
       meta.description = "Release-critical builds";
       constituents =
+        [ tarball ] ++
         (map (system: builtins.getAttr system build) supportedSystems) ++
         (map (system: builtins.getAttr system binaryTarball) supportedSystems) ++
         (map (system: builtins.getAttr system installer) supportedSystems) ++
-        [
-          tarball
-          deb_debian7i386
+        (pkgs.lib.optionals (builtins.hasAttr "x86_64-linux" supportedSystems) [
           deb_debian7x86_64
-          deb_ubuntu1404i386 # LTS
           deb_ubuntu1404x86_64 # LTS
-          deb_ubuntu1504i386
           deb_ubuntu1504x86_64
-          rpm_fedora20i386
           rpm_fedora20x86_64
-          rpm_fedora21i386
           rpm_fedora21x86_64
           tests.remoteBuilds
           tests.nix-copy-closure
           tests.binaryTarball
-        ];
+          ]) ++
+        (pkgs.lib.optionals (builtins.hasAttr "i686-linux" supportedSystems) [
+          deb_debian7i386
+          deb_ubuntu1404i386 # LTS
+          deb_ubuntu1504i386
+          rpm_fedora20i386
+          rpm_fedora21i386
+          ]);
     };
 
   };
