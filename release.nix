@@ -210,24 +210,24 @@ let
         [ tarball ] ++
         (map (system: builtins.getAttr system build) supportedSystems) ++
         (map (system: builtins.getAttr system binaryTarball) supportedSystems) ++
-        (map (system: builtins.getAttr system installer) supportedSystems) ++
-        (pkgs.lib.optionals (builtins.elem "x86_64-linux" supportedSystems) [
-          jobs.deb_debian7x86_64
-          jobs.deb_ubuntu1404x86_64 # LTS
-          jobs.deb_ubuntu1504x86_64
-          jobs.rpm_fedora20x86_64
-          jobs.rpm_fedora21x86_64
-          jobs.tests.remoteBuilds
-          jobs.tests.nix-copy-closure
-          jobs.tests.binaryTarball
-          ]) ++
-        (pkgs.lib.optionals (builtins.elem "i686-linux" supportedSystems) [
-          jobs.deb_debian7i386
-          jobs.deb_ubuntu1404i386 # LTS
-          jobs.deb_ubuntu1504i386
-          jobs.rpm_fedora20i386
-          jobs.rpm_fedora21i386
-          ]);
+        (map (system: builtins.getAttr system installer) supportedSystems);
+        #(pkgs.lib.optionals (builtins.elem "x86_64-linux" supportedSystems) [
+        #  jobs.deb_debian7x86_64
+        #  jobs.deb_ubuntu1404x86_64 # LTS
+        #  jobs.deb_ubuntu1504x86_64
+        #  jobs.rpm_fedora20x86_64
+        #  jobs.rpm_fedora21x86_64
+        #  jobs.tests.remoteBuilds
+        #  jobs.tests.nix-copy-closure
+        #  jobs.tests.binaryTarball
+        #  ]) ++
+        #(pkgs.lib.optionals (builtins.elem "i686-linux" supportedSystems) [
+        #  jobs.deb_debian7i386
+        #  jobs.deb_ubuntu1404i386 # LTS
+        #  jobs.deb_ubuntu1504i386
+        #  jobs.rpm_fedora20i386
+        #  jobs.rpm_fedora21i386
+        #  ]);
     };
 
   } // (pkgs.lib.optionalAttrs (builtins.elem "x86_64-linux" supportedSystems) {
@@ -341,4 +341,6 @@ let
         rm tmp.zip
       '';
 
-in jobs
+in {
+  inherit (jobs) release;
+}
